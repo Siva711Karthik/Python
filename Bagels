@@ -69,8 +69,8 @@ def main():
                 print('You ran out of guesses.')
                 print('The answer was {}.'.format(GenNum))
 
-        next_round = input('Do you want to play again? (yes or no) ').lower()
-        if next_round.startswith('n'):
+        ask = input('Do you want to play again? (yes or no) ').lower()
+        if ask.startswith('n'):
             break
     
     print('Thanks for playing')
