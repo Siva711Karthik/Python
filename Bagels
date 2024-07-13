@@ -1,0 +1,79 @@
+import random
+
+Num_Digits = 3
+Num_Guesses = 10
+
+#____TASK 1___
+
+def getSecretNum():
+    number = list('0123456789')
+    random.shuffle(number)
+    SecretNum = ""
+    for i in range(Num_Digits):
+        SecretNum += str(number[i])
+    return SecretNum
+
+#____TASK 2___
+
+def getClues(guess, SecretNum):
+    if guess == SecretNum:
+        return 'You guessed it correctly!'
+    
+    clues = []
+    
+    for i in range(len(guess)):
+        if guess[i] == SecretNum[i]:
+            clues.append('Fermi')
+        elif guess[i] in SecretNum:
+            clues.append('Pico')
+    
+    if len(clues) == 0:
+        return "Bagels"
+    else:
+        clues.sort()
+        return ' '.join(clues)
+    
+#____TASK 3___
+
+def main():
+    print("""BAGELS
+    A deductive 'logic game'
+    where you must guess a {}-digit number with no repeated digits based on clues.
+    Try to guess what it is. Here are some clues:
+    When I say:
+    'Pico' One digit is correct but in the wrong position.
+    'Fermi' One digit is correct and in the right position.
+    'Bagels' No digit is correct.
+
+    For example, if the secret number was 2427 and your guess was 843, the
+    clues would be Fermi Pico.""".format(Num_Digits))
+
+    while True:
+        GenNum = getSecretNum()
+        print("I have generated the secret number.")
+        print("Now you have {} chances to guess the secret number.".format(Num_Guesses))
+
+        numGuessed = 1
+        while numGuessed <= Num_Guesses:
+            guess = ''
+            while len(guess) != Num_Digits or not guess.isdecimal():
+                print('Guess #{}'.format(numGuessed))
+                guess = input("> ")
+
+            clues = getClues(guess, GenNum)
+            print(clues)
+            numGuessed += 1
+            if guess == GenNum:
+                break
+            if numGuessed > Num_Guesses:
+                print('You ran out of guesses.')
+                print('The answer was {}.'.format(GenNum))
+
+        next_round = input('Do you want to play again? (yes or no) ').lower()
+        if next_round.startswith('n'):
+            break
+    
+    print('Thanks for playing')
+
+if __name__ == "__main__":
+    main()
